@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% block content %}
+    {% if request.user.is_superuser %}
+        <div class="features">
+            <h1>Add new product</h1><br>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.name }}<br>
+                {{ form.text }}<br>
+                {{ form.price }}<br>
+                {{ form.amount }}<br>
+                {{ models.create_date }}
+                <span>{{ error }}</span>
+                <button class="btn btn-success" type="submit">Add product</button>
+            </form>
+        </div>
+    {% else %}
+        <p class="mt-4">ERROR! You are not an Admin!</p>
+    {% endif %}
+{% endblock %}

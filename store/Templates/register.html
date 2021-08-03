@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1 class="mt-4">Register</h1>
+    <div class="col-7">
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}<br>
+            <button class="btn btn-success" type="submit">Confirm</button>
+        </form>
+    </div>
+{% endblock %}

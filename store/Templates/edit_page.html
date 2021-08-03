@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    {% if request.user.is_superuser %}
+        <h1 class="mt-4">Admin panel</h1>
+
+        <a href="{% url 'create' %}">
+            <button class="btn btn-info"><i class="fas fa-plus-circle"></i>Add product</button>
+        </a><br>
+
+        {% if update %}
+            <h1 class="mt-4">Product creation</h1>
+            <form id="update_data" method="post">
+                {% csrf_token %}
+                {{ form }}<br>
+                <span>{{ error }}</span>
+                <button class="btn btn-success" type="submit">Edit product</button>
+            </form>
+        {% else %}
+
+            <table class="table table-bordered mt-4">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Date of creation</th>
+                    <th scope="col">Product name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount of product</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in list_articles %}
+                    <tr>
+                        <th>{{ i.id }}</th>
+                        <td>{{ i.create_date }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.price }}</td>
+                        <td>{{ i.amount }}</td>
+                        <td><a href="{% url 'update' i.id %}">edit product</a></td>
+                        <td>
+                            <form id="delete_form_{{ i.id }}" action="{% url 'delete' i.id %}" method="post">
+                                {% csrf_token %}
+                            </form>
+                            <a href="javascript:void(0)" onclick="delete_question({{ i.id }})">delete</a>
+                            <script>
+                                function delete_question(id) {
+                                    if (confirm('Delete this product?')) {
+                                        document.getElementById('delete_form_' + id).submit()
+                                    }
+                                }
+                            </script>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% else %}
+        <p class="mt-4">ERROR! You are not an Admin!</p>
+    {% endif %}
+
+{% endblock %}

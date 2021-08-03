@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1 class="mt-4">Welcome to your account, {{ request.user.username }}</h1>
+    <h5>You money: {{ user.money }}</h5><br>
+    <h5>It's list with your orders: </h5>
+    {% if not orders.count %}
+        <div class="col-md-12" style="margin-top: 20px; margin-bottom: 200px;">
+            <h3>You dont have orders</h3>
+        </div>
+    {% else %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Order id</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Final price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in orders %}
+                <tr>
+                    <th scope="row">{{ i.id }}</th>
+                    <td>{{ i.product }}</td>
+                    <td>{{ i.input_amount }}</td>
+                    <td>{{ i.final_price }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>MyStore</title>
+</head>
+<body>
+
+<div class="container mt-4">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            {% url 'home' as url_home %}
+            <a class="nav-link {% if url_home == request.path %}active{% endif %}" href="{{ url_home }}">Home page</a>
+        </li>
+
+        {% if request.user.is_superuser %}
+            <li class="nav-item">
+                {% url 'edit_page' as url_edit_page %}
+                <a class="nav-link {% if url_edit_page == request.path %}active{% endif %}"
+                   href="{{ url_edit_page }}">Create/edit/delete</a>
+            </li>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                {% url 'account' as url_account %}
+                <a class="nav-link {% if url_account == request.path %}active{% endif %}"
+                   href="{{ url_account }}">Your account</a>
+            </li>
+            <li class="nav-item">
+                {% url 'logout_page' as url_logout_page %}
+                <a class="nav-link {% if url_register_page == request.path %}active{% endif %}
+             btn-danger ml-4" href="{{ url_logout_page }}">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                {% url 'login_page' as url_login_page %}
+                <a class="nav-link {% if url_login_page == request.path %}active{% endif %}"
+                   href="{{ url_login_page }}">Login</a>
+            </li>
+
+            <li class="nav-item">
+                {% url 'register_page' as url_register_page %}
+                <a class="nav-link {% if url_register_page == request.path %}active{% endif %}"
+                   href="{{ url_register_page }}">Register</a>
+            </li>
+        {% endif %}
+
+    </ul>
+
+    {% block content %}
+        {% if request.user.is_authenticated %}
+            <h2 class="mt-2">Hello,{{ request.user }} !<br>Your money: {{ user.money }}</h2>
+        {% endif %}
+
+        <h1 class="mt-4">Welcome to my store with useful products</h1>
+        {% for i in list_articles %}
+            <ul class="list-group mt-4">
+                <li class="list-group-item">
+                    <p>Product: <b>{{ i.name|truncatechars:"25" }}</b></p>
+                    <p>(<span>{{ i.text|truncatechars:"25" }}</span>)</p>
+                    <p>Price: <span>{{ i.price|truncatechars:"25" }}</span></p>
+                    <p>Amount: <span>{{ i.amount|truncatechars:"25" }}</span></p>
+                    {% if user.is_authenticated %}
+                        <hr><a href="{% url 'description' i.id %}">
+                        <button class="btn btn-info">Buy this product</button>
+                    </a>
+                    {% endif %}
+                    <span class="float-right mr-3"><a href="{{ i.id }}">
+                        <button class="btn btn-info">to product description</button></a></span>
+                </li>
+            </ul>
+        {% endfor %}
+    {% endblock %}
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

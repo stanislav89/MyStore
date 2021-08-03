@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block title %}Description{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Product name: {{ article.name }}</h1>
+        <p>{{ article.create_date }}</p>
+        <p><b>Product description: </b>{{ article.text }}</p>
+        <p><b>Price: </b>{{ article.price }}</p>
+        <p><b>Amount of this product: </b>{{ article.amount }}</p>
+    </div>
+    {% if request.user.is_authenticated %}
+        <div>
+            <form action="{% url 'purchase_page' %}" method="post">
+                {% csrf_token %}
+                <br><br><label for="input_amount"><h5>If you want to buy this product,
+                <br>enter the quantity you need:</h5></label><br>
+                <input id="input_amount" name="input_amount" type="number" min="1"
+                       max="{{ article.amount }}">
+                <input id="buyer" name="buyer" value="{{ user.id }}" type="hidden">
+                <input id="product" name="product" value="{{ article.id }}" type="hidden">
+                <button class="btn btn-success" type="submit">Buy</button>
+            </form>
+        </div>
+    {% else %}
+        <h5>(login to buy this product)</h5>
+    {% endif %}
+{% endblock %}
