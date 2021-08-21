@@ -1,15 +1,14 @@
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.models import User
+# from django import forms
+# from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
+from .models import Product, User, Purchase
+from django.forms import ModelForm, TextInput, Textarea, NumberInput
 
-from .models import Articles, User, Purchase
-from django.forms import ModelForm, TextInput, Textarea, NumberInput, IntegerField
 
-
-class ArticleForm(ModelForm):
+# My Forms
+class ProductForm(ModelForm):
     class Meta:
-        model = Articles
-        # fields = ['name', 'text']
+        model = Product
         fields = '__all__'
 
         widgets = {
@@ -81,7 +80,6 @@ class PurchaseForm(ModelForm):
     class Meta:
         model = Purchase
         fields = ('buyer', 'product', 'input_amount', 'final_price')
-        # fields = '__all__'
         widgets = {
             'input_amount': NumberInput(attrs={
                 'class': 'form-control',

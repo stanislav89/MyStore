@@ -3,26 +3,35 @@
 {% block title %}Description{% endblock %}
 
 {% block content %}
-    <div>
-        <h1>Product name: {{ article.name }}</h1>
-        <p>{{ article.create_date }}</p>
-        <p><b>Product description: </b>{{ article.text }}</p>
-        <p><b>Price: </b>{{ article.price }}</p>
-        <p><b>Amount of this product: </b>{{ article.amount }}</p>
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <img src="{{ product_description.image.url }}" class="img-fluid" alt="" width="350" height="350">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <br><h4 class="card-title" style="color: gray">{{ product_description.name }}</h4>
+                    <h5 style="color: forestgreen">{{ product_description.price }} $</h5>
+                    <p class="card-text">{{ product_description.text }}</p>
+                </div>
+            </div>
+        </div>
     </div>
+
     {% if request.user.is_authenticated %}
-        <div>
-            <form action="{% url 'purchase_page' %}" method="post">
+        <form class="ml-5 mt-2" action="{% url 'purchase_page' %}" method="post">
+            <div class="form-group">
                 {% csrf_token %}
-                <br><br><label for="input_amount"><h5>If you want to buy this product,
-                <br>enter the quantity you need:</h5></label><br>
+                <label for="input_amount">If you want to buy this product,
+                    <br>enter the quantity you need:</label><br>
+                <h5 style="color: gray">(quantity of this product in stock: {{ product_description.amount }})</h5>
                 <input id="input_amount" name="input_amount" type="number" min="1"
                        max="{{ article.amount }}">
                 <input id="buyer" name="buyer" value="{{ user.id }}" type="hidden">
-                <input id="product" name="product" value="{{ article.id }}" type="hidden">
+                <input id="product" name="product" value="{{ product_description.id }}" type="hidden">
                 <button class="btn btn-success" type="submit">Buy</button>
-            </form>
-        </div>
+            </div>
+        </form>
     {% else %}
         <h5>(login to buy this product)</h5>
     {% endif %}
