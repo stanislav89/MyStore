@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    {% for i in smartphones_list %}
+        {% if i.product_category == 'Smartphones' %}
+            <div class="product-item">
+                <img src="{{ i.image.url }}" alt="">
+                <div class="product-list">
+                    <h3>{{ i.name }}</h3>
+                    <span class="price">{{ i.price }} $</span>
+                    <a href="{% url 'description' i.id %}" class="button">DETAILS</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
