@@ -1,8 +1,7 @@
 from django.contrib import admin
-from StoreApp.models import Articles, User, Purchase
-from django.contrib.auth import get_user_model
+from StoreApp.models import Product, User, Purchase
 
 # Register your models here.
-admin.site.register(Articles)
+admin.site.register(Product)
 admin.site.register(User)
 admin.site.register(Purchase)
