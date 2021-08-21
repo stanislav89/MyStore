@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if request.user.is_superuser %}
-        <h1 class="mt-4">Admin panel</h1>
+        <h3 class="mt-4">Admin panel</h3>
 
         <a href="{% url 'create' %}">
             <button class="btn btn-info"><i class="fas fa-plus-circle"></i>Add product</button>
@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for i in list_articles %}
+                {% for i in list_of_products %}
                     <tr>
                         <th>{{ i.id }}</th>
                         <td>{{ i.create_date }}</td>
@@ -46,7 +46,7 @@
                             <a href="javascript:void(0)" onclick="delete_question({{ i.id }})">delete</a>
                             <script>
                                 function delete_question(id) {
-                                    if (confirm('Delete this product?')) {
+                                    if (confirm('Delete this product? Are you sure?')) {
                                         document.getElementById('delete_form_' + id).submit()
                                     }
                                 }

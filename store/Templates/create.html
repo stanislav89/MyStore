@@ -3,8 +3,10 @@
     {% if request.user.is_superuser %}
         <div class="features">
             <h1>Add new product</h1><br>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ form.image }}<br>
+                {{ form.product_category }}<br>
                 {{ form.name }}<br>
                 {{ form.text }}<br>
                 {{ form.price }}<br>
